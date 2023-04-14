@@ -1,0 +1,27 @@
+lt
+WZ-132-1		APCR 230 HEAT 295 HE   55
+Bat-Chatillion 25 t	AP   240 HEAT 295 HE   53
+Vickers Light 105 	AP   250 HEAT 290 HE   105
+XM551 Sheridan 		APCR 230 HEAT 310 HE   90
+T-100 LT 		AP   240 AP   290 HE   50
+
+mt
+WZ-121 			AP   245 HEAT 290 HE   68
+121B 			AP   245 HEAT 300 HE   53
+Progetto M40 mod. 65 	AP   245 HEAT 295 HE   53
+TVP T 50/51 		AP   242 HEAT 290 HE   50
+Carro da Combattimento 	AP   240 APCR 310 HE   60
+AMX 30 B 		AP   250 HEAT 295 HE   53
+E 50 Ausf. M 		AP   245 HEAT 300 HE   60
+Leopard 1 		AP   255 HEAT 300 HE   53
+Kampfpanzer 50 t   	APCR 250 HEAT 300 HE   53
+STB-1 			AP   245 HEAT 300 HE   53
+FV4202 			AP   255 HESH 210 HE   105
+M48 Patton 		AP   255 HEAT 300 HE   53
+M60 			AP   255 HEAT 300 HE   53
+T-62A 			AP   245 HEAT 300 HE   50
+Object 907 		AP   245 HEAT 300 HE   50
+Object 140 		AP   240 HEAT 290 HE   50
+T-22 medium 		AP   230 HEAT 300 HE   50
+
+ht
