@@ -14,12 +14,12 @@ public:
 	/*
 	Calculates minimum penetration required to overcome 
 	armour for AP / APCR rounds for 3 shell caliber cases
-	case 1: from 0 to over 2 times the nominal
-	case 2: from more than 2 times the nominal to 3 times the nominal
-	case 3: from more than 3 times the nominal
+	calibre case 1: less than equals to 2 times the nominal
+	calibre case 2: more than 2 times the nominal to 3 times the nominal
+	calibre case 3: more than 3 times the nominal
 
 	*/
-	static void AgainstKeneticRounds(std::string shellDisplayName, double normalizationAngle, double armourNominal, double armourEffective, double armourAngle);
+	static void AgainstKeneticRounds(std::string shellDisplayName, double normalizationAngle, double armourNominal, double armourAngle);
 
 	/*
 	Calculates minimum caliber and penetration required to
@@ -41,8 +41,11 @@ public:
 	static void ChanceOfPenetration(std::vector<double>& penetrationRange);
 
 	/*
-	returns new normalizaiton angle
-	new angle = originalAngle * 1.4 * shellCaliber / (2 * primaryArmour)
+	returns normalizaiton angle
+	if shell caliber > nominal armour * 2 
+		new angle = originalAngle * 1.4 * shellCaliber / (2 * primaryArmour)
+	else
+		no changes
 	*/
 	static double NormalizationIncreased(double shellNormalizaitonAngle, double shellCaliber, double armourNominal);
 
@@ -52,6 +55,6 @@ public:
 		angle is taken in °
 		normalizationAngle is taken in °
 	*/
-	static double ArmourEffectiveness(double armourNominal, double angle, double normalizationAngle);
+	static double ArmourEffectiveness(double armourNominal, double armourAngle, double normalizationAngle);
 };
 

@@ -13,7 +13,7 @@ double OtherFunx::GetDouble(std::string inputMessage){
             return std::stod(userInput);
         }
         else {
-            std::cout << "\terror: >" << userInput << "< isn't numeric\n";
+            std::cout << "\terror: >" << userInput << "< isn't numeric\n\n";
         }
     }
 }
@@ -22,7 +22,7 @@ double OtherFunx::GetDouble(std::string inputMessage){
 bool OtherFunx::IsNumeric(std::string givenString){
     unsigned int commaPointCounter = 0;
 
-    if (givenString.size() > 0 && (givenString[givenString.size() - 1] == '.' || givenString[givenString.size() - 1] == ',')) {
+    if (givenString.size() == 0 || givenString[givenString.size() - 1] == '.' || givenString[givenString.size() - 1] == ',') {
         return false;
     }
 

@@ -1,8 +1,7 @@
-﻿  ArmourPenetrationCalculator.cpp
-  BlitzFunx.cpp
+﻿  OtherFunx.cpp
   Generating code
-  1 of 112 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
   Finished generating code
+  1 of 116 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     1 functions had inline decision re-evaluated but remain unchanged
   ArmourPenetrationCalculator.vcxproj -> D:\Dummy folder\dummy\programming projects\BlitzArmourPenetrationCalculator\Release\ArmourPenetrationCalculator.exe

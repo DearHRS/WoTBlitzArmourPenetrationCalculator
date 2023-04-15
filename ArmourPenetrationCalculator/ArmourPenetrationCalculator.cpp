@@ -10,15 +10,18 @@
 
 int main(){
     while (true){
-        double armourNominal = OtherFunx::GetDouble("  enter value of nominal armour: ");       //variable for nominal armour (set by user)
-        double armourEffective = OtherFunx::GetDouble("enter value of effective armour: ");     //variable for effective armour (set by user)
-        double armourAngle = OtherFunx::RadianToDegree(acos(armourNominal / armourEffective));  //variable for shell's impacting angle relative to armour's normal 
+        double armourNominal = OtherFunx::GetDouble("  enter value of nominal armour: ");       //variable for base armour thickness (set by user)
+        double armourEffective = OtherFunx::GetDouble("enter value of effective armour: ");     //variable for relative thickness of base armour at some angle (set by user)
+        double armourAngle = OtherFunx::RadianToDegree(acos(armourNominal / armourEffective));  //variable for shell's impacting angle relative to normal armour
 
-        std::cout << "impact angle = " << armourAngle << "\370 \n\n";
+        std::cout << "\t\t  impact angle : " << armourAngle << "\370 \n\n";
 
-        /*std::vector<double> test;
-        BlitzFunx::PenetrationRangeGenerator(test, 315, 0.05);*/
 
+        BlitzFunx::AgainstKeneticRounds("AP", 5, armourNominal, armourAngle);
+        std::cout << "____________________________________________________________________________\n";
+
+        BlitzFunx::AgainstKeneticRounds("APCR", 2, armourNominal, armourAngle);
+        std::cout << "____________________________________________________________________________\n\n";
     }
 
     return 0;
