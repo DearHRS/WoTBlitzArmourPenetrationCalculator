@@ -1,7 +1,6 @@
 #include "BlitzFunx.h"
 
 void BlitzFunx::AgainstKineticRounds(std::string shellDisplayName, double shellNormalizaitonAngle, double armourNominal, double armourAngle){
-    
     std::cout << "      Shell type: " << shellDisplayName << "\n";
     std::cout << "Enchanced armour: off" << "\n\n";
     for (unsigned int i = 0; i < 2; i++) {
@@ -35,8 +34,18 @@ void BlitzFunx::AgainstKineticRounds(std::string shellDisplayName, double shellN
 }
 
 
-void BlitzFunx::AgainstChemicalRounds(std::string shellDisplayName, double normalizationAngle, double armourNominal, double armourEffective, double armourAngle){
+void BlitzFunx::AgainstChemicalRounds(std::string shellDisplayName, double armourNominal, double armourAngle){
+    std::cout << "      Shell type: " << shellDisplayName << "\n";
+    std::cout << "Enchanced armour: off" << "\n\n";
+    
+    for (unsigned int i = 0; i < 2; i++) {
+        std::cout << "100% penetration at: " << BlitzFunx::ArmourEffectiveness(armourNominal, armourAngle, 0) * 1.05 << "mm\n\n";
 
+        if (i == 0) {
+            armourNominal = armourNominal * 1.04;
+            std::cout << "\nEnchanced armour: on" << "\n\n";
+        }
+    }
 }
 
 

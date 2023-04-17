@@ -23,6 +23,8 @@ int main(){
         BlitzFunx::AgainstKineticRounds("APCR", 2, armourNominal, armourAngle);
         std::cout << "____________________________________________________________________________\n";
 
+        BlitzFunx::AgainstChemicalRounds("HEAT / HE", armourNominal, armourAngle);
+        std::cout << "____________________________________________________________________________\n";
 
         std::cout << std::endl;
     }

@@ -26,7 +26,7 @@ public:
 	Calculates minimum caliber and penetration required to
 	overcome armour for HEAT and HE/HESH rounds up until 0%
 	*/
-	static void AgainstChemicalRounds(std::string shellDisplayName, double shellNormalizaitonAngle, double armourNominal, double armourEffective, double armourAngle);
+	static void AgainstChemicalRounds(std::string shellDisplayName, double armourNominal, double armourAngle);
 
 	/*
 	Returns dynamic array filled with all the possbile penetrations values
