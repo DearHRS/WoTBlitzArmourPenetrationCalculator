@@ -9,5 +9,8 @@ log:15.04.2023 0115
 -modules barely interact with each other at the moment
 
 log:15.04.2023 1516
--completed functions related to calculation of kenetic rounds (ap/apcr)
+-completed functions related to calculation of kinetic rounds (ap/apcr)
 -intregated those functions and programme finally does calculations related to 100% chance of penetration
+
+log:17.04.2023 1425
+-minor fixes to bugs and typos
