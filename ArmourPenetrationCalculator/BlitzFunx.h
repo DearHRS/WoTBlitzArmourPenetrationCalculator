@@ -19,9 +19,10 @@ public:
 	calibre case 3: more than 3 times the nominal
 
 	*/
-	static void AgainstKeneticRounds(std::string shellDisplayName, double normalizationAngle, double armourNominal, double armourAngle);
+	static void AgainstKineticRounds(std::string shellDisplayName, double normalizationAngle, double armourNominal, double armourAngle);
 
 	/*
+	unitilized function
 	Calculates minimum caliber and penetration required to
 	overcome armour for HEAT and HE/HESH rounds up until 0%
 	*/
@@ -33,6 +34,7 @@ public:
 	static void PenetrationRangeGenerator(std::vector<double>& penetrationRange, double averagePenetration, double deviation);
 
 	/*
+	unitilized function
 	structure under development
 	Outputs chance of penetration
 

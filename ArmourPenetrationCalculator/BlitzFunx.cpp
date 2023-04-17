@@ -1,6 +1,6 @@
 #include "BlitzFunx.h"
 
-void BlitzFunx::AgainstKeneticRounds(std::string shellDisplayName, double shellNormalizaitonAngle, double armourNominal, double armourAngle){
+void BlitzFunx::AgainstKineticRounds(std::string shellDisplayName, double shellNormalizaitonAngle, double armourNominal, double armourAngle){
     
     std::cout << "      Shell type: " << shellDisplayName << "\n";
     std::cout << "Enchanced armour: off" << "\n\n";
@@ -11,11 +11,11 @@ void BlitzFunx::AgainstKeneticRounds(std::string shellDisplayName, double shellN
         if (armourAngle < 70) {
             //calibre case 1
             std::cout << "0mm\t< gun calibre <= " << overmatchCalibreDouble << "mm\n";
-            std::cout << "required penetration: " << BlitzFunx::ArmourEffectiveness(armourNominal, armourAngle, BlitzFunx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreDouble, armourNominal)) * 1.05 << "mm\n\n";
+            std::cout << "100% penetration at: " << BlitzFunx::ArmourEffectiveness(armourNominal, armourAngle, BlitzFunx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreDouble, armourNominal)) * 1.05 << "mm\n\n";
 
             //calibre case 2
             std::cout << overmatchCalibreDouble << "mm\t< gun calibre <= " << overmatchCalibreTriple << "mm\n";
-            std::cout << "required penetration: " << BlitzFunx::ArmourEffectiveness(armourNominal, armourAngle, BlitzFunx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreDouble + 0.01, armourNominal)) * 1.05
+            std::cout << "100% penetration at: " << BlitzFunx::ArmourEffectiveness(armourNominal, armourAngle, BlitzFunx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreDouble + 0.01, armourNominal)) * 1.05
                 << "mm to " << BlitzFunx::ArmourEffectiveness(armourNominal, armourAngle, BlitzFunx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreTriple, armourNominal)) * 1.05 << "mm\n\n";
         }
 
@@ -25,7 +25,7 @@ void BlitzFunx::AgainstKeneticRounds(std::string shellDisplayName, double shellN
 
         //calibre case 3
         std::cout << overmatchCalibreTriple << "mm\t< gun calibre < INFINITE mm\n";
-        std::cout << "required penetration: " << BlitzFunx::ArmourEffectiveness(armourNominal, armourAngle, BlitzFunx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreTriple + 0.01, armourNominal)) * 1.05 << "mm\n\n";
+        std::cout << "100% penetration at: " << BlitzFunx::ArmourEffectiveness(armourNominal, armourAngle, BlitzFunx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreTriple + 0.01, armourNominal)) * 1.05 << "mm to " << armourNominal * 1.05 << "mm\n\n";
 
         if (i == 0) {
             armourNominal = armourNominal * 1.04;

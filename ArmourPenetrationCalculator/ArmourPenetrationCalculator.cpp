@@ -17,11 +17,14 @@ int main(){
         std::cout << "\t\t  impact angle : " << armourAngle << "\370 \n\n";
 
 
-        BlitzFunx::AgainstKeneticRounds("AP", 5, armourNominal, armourAngle);
+        BlitzFunx::AgainstKineticRounds("AP", 5, armourNominal, armourAngle);
         std::cout << "____________________________________________________________________________\n";
 
-        BlitzFunx::AgainstKeneticRounds("APCR", 2, armourNominal, armourAngle);
-        std::cout << "____________________________________________________________________________\n\n";
+        BlitzFunx::AgainstKineticRounds("APCR", 2, armourNominal, armourAngle);
+        std::cout << "____________________________________________________________________________\n";
+
+
+        std::cout << std::endl;
     }
 
     return 0;
