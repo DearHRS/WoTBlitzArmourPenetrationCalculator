@@ -14,3 +14,7 @@ log:15.04.2023 1516
 
 log:17.04.2023 1425
 -minor fixes to bugs and typos
+
+log:17.04.2023 1752
+-completed functions related to calculation of chemical rounds (heat/he)
+-intregated those functions
