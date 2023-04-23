@@ -1,9 +1,9 @@
 # BlitzPenetration-Test
 Calculator written in C++, displays required level of penetration for predetermined chance for different shell types and calibers
 Current features:
--Fully realized penetration for nominal armour against AP rounds
--Fully realized penetration for nominal armour against APCR rounds
--Partially realized penetration for nominal armour against HEAT / HE / HESH / HEP  rounds (can not be fully realized without tank models)
+-Fully realized penetration for primary armour against AP rounds
+-Fully realized penetration for primary armour against APCR rounds
+-Partially realized penetration for primary armour against HEAT / HE / HESH / HEP  rounds (can not be fully realized without tank models)
 
 Missing features:
 -mafs with spaced armour
