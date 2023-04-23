@@ -21,6 +21,7 @@ log:17.04.2023 1752
 
 log:23.04.2023 1944
 -reworked structure of programme (not all modules in source code are intregated yet, Blitz namespace and rework of many many functions)
+-std::wstrings are now used instead of std::string
 -added struct to store shell data (Blitz::ShellData)
 -Blitz::Funx::AgainstKineticRounds() & Blitz::Funx::AgainstChemicalRounds() no longer output on console but store penetration data to vector of string vector 
 -added functions to get penetration rng for what chance of penetration is desired (in Blitz::Funx::GetRng())
