@@ -1,4 +1,4 @@
-# BlitzPenetration-Test
+# ArmourPenetrationCalculator
 Calculator written in C++, displays required level of penetration for predetermined chance for different shell types and calibers
 Current features:
 -Fully realized penetration for primary armour against AP rounds
