@@ -1,7 +1,14 @@
 # BlitzPenetration-Test
+Calculator written in C++, displays required level of penetration for predetermined chance for different shell types and calibers
+Current features:
+-Fully realized penetration for nominal armour against AP rounds
+-Fully realized penetration for nominal armour against APCR rounds
+-Partially realized penetration for nominal armour against HEAT / HE / HESH / HEP  rounds (can not be fully realized without tank models)
 
-Currently updating over to c++
--new version will include gui but no plans to add models
+Missing features:
+-mafs with spaced armour
+-mafs with external modules (for 3 calibre bypass)
+
 
 log:15.04.2023 0115
 -added module to handle input and other functions
@@ -27,3 +34,9 @@ log:23.04.2023 1944
 -added functions to get penetration rng for what chance of penetration is desired (in Blitz::Funx::GetRng())
 -working on tabular display (incomplete at the moment, Blitz::Funx::DisplayData())
 -excel sheet and paint.net now include mafs used to discover Blitz::Funx::GetRng()
+
+log:24.04.2023 0119
+-fully integrated newly reworked structure
+-reworked Blitz::Funx::GetRng() to return result between 0.95 to 1.05 (+-5% shell penetration rng)
+-completed Blitz::Funx::DisplayData()
+-added OtherFunx::MakeNumberLookGood() (called inside of Other::Funx::RemoveUnnecessaryZerosFromWstringVector()), used to fix string length to make data look more even
