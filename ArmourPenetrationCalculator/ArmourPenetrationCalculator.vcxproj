@@ -141,11 +141,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArmourPenetrationCalculator.cpp" />
+    <ClCompile Include="Blitz.cpp" />
     <ClCompile Include="BlitzFunx.cpp" />
     <ClCompile Include="OtherFunx.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BlitzFunx.h" />
+    <ClInclude Include="Blitz.h" />
     <ClInclude Include="OtherFunx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

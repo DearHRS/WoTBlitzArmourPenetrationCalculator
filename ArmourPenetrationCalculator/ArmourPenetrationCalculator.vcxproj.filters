@@ -24,12 +24,15 @@
     <ClCompile Include="BlitzFunx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Blitz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OtherFunx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BlitzFunx.h">
+    <ClInclude Include="Blitz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

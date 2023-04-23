@@ -1,33 +1,33 @@
 #include "OtherFunx.h"
 
 
-double OtherFunx::GetDouble(std::string inputMessage){
+double OtherFunx::GetDouble(std::wstring inputMessage){
     while (true) {
-        std::string userInput;
+        std::wstring userInput;
 
-        std::cout << inputMessage;
-        std::getline(std::cin, userInput);
+        std::wcout << inputMessage;
+        std::getline(std::wcin, userInput);
 
         if (IsNumeric(userInput)) {
             ReplaceCommaToPoint(userInput);
             return std::stod(userInput);
         }
         else {
-            std::cout << "\terror: >" << userInput << "< isn't numeric\n\n";
+            std::wcout << L"\terror: >" << userInput << L"< isn't numeric\n\n";
         }
     }
 }
 
 
-bool OtherFunx::IsNumeric(std::string givenString){
+bool OtherFunx::IsNumeric(std::wstring givenWstring){
     unsigned int commaPointCounter = 0;
 
-    if (givenString.size() == 0 || givenString[givenString.size() - 1] == '.' || givenString[givenString.size() - 1] == ',') {
+    if (givenWstring.size() == 0 || givenWstring[givenWstring.size() - 1] == L'.' || givenWstring[givenWstring.size() - 1] == L',') {
         return false;
     }
 
-    for (unsigned int i = 0; i < givenString.size(); i++) {
-        switch (givenString[i]) {
+    for (unsigned int i = 0; i < givenWstring.size(); i++) {
+        switch (givenWstring[i]) {
         case '0':
         case '1':
         case '2':
@@ -57,11 +57,11 @@ bool OtherFunx::IsNumeric(std::string givenString){
 }
 
 
-void OtherFunx::ReplaceCommaToPoint(std::string& givenString){
-    for (unsigned int i = 0; i < givenString.size(); i++) {
-        switch (givenString[i]) {
+void OtherFunx::ReplaceCommaToPoint(std::wstring& givenWstring){
+    for (unsigned int i = 0; i < givenWstring.size(); i++) {
+        switch (givenWstring[i]) {
         case ',':
-            givenString[i] = '.';
+            givenWstring[i] = '.';
             break;
         }
     }
@@ -75,4 +75,34 @@ double OtherFunx::RadianToDegree(double givenRadian){
 
 double OtherFunx::DegreeToRadian(double givenDegree){
     return givenDegree * 3.14159265359 / 180;
+}
+
+
+void OtherFunx::RemoveUnnecessaryZerosFromWstringVector(std::vector<std::wstring>& givenVector){
+    for (unsigned int a = 0; a < givenVector.size(); a++) {
+        OtherFunx::RemoveUnncessaryZeroFromWstring(givenVector[a]);
+    }
+}
+
+
+void OtherFunx::RemoveUnncessaryZeroFromWstring(std::wstring& givenString){
+    if (OtherFunx::IsNumeric(givenString)) {
+        std::wstring replacementWstring = givenString;
+
+        for (int a = givenString.size() - 1; a >= 0; a--) {
+            switch (givenString[a]) {
+            case '0':
+                replacementWstring.erase(a);
+                break;
+
+
+            case '.':
+                replacementWstring.erase(a);
+
+            default:
+                givenString = replacementWstring;
+                return;
+            }
+        }
+    }
 }
