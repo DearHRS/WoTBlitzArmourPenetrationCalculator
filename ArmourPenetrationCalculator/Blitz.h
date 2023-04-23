@@ -62,7 +62,7 @@ namespace Blitz{
 		/*
 		returns penetration range from value(s) to value(s) for given chance of penetration array
 		*/
-		static void PenetrationValueRangeGenerator(std::vector<std::vector<std::wstring>>& penetrationStorage, std::vector<double>& penetrationChances, double effectiveArmour1, double effectiveArmour2);
+		static void PenetrationValueRangeGenerator(std::vector<std::vector<std::wstring>>& penetrationStorage, std::vector<double>& penetrationChances, std::vector<double> effectiveArmour);
 
 		/*
 		returns normalizaiton angle

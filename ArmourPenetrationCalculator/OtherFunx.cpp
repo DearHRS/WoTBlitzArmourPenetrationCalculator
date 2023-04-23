@@ -81,16 +81,17 @@ double OtherFunx::DegreeToRadian(double givenDegree){
 void OtherFunx::RemoveUnnecessaryZerosFromWstringVector(std::vector<std::wstring>& givenVector){
     for (unsigned int a = 0; a < givenVector.size(); a++) {
         OtherFunx::RemoveUnncessaryZeroFromWstring(givenVector[a]);
+        OtherFunx::MakeNumberLookGood(givenVector[a], 6);
     }
 }
 
 
-void OtherFunx::RemoveUnncessaryZeroFromWstring(std::wstring& givenString){
-    if (OtherFunx::IsNumeric(givenString)) {
-        std::wstring replacementWstring = givenString;
+void OtherFunx::RemoveUnncessaryZeroFromWstring(std::wstring& givenWstring){
+    if (OtherFunx::IsNumeric(givenWstring)) {
+        std::wstring replacementWstring = givenWstring;
 
-        for (int a = givenString.size() - 1; a >= 0; a--) {
-            switch (givenString[a]) {
+        for (int a = givenWstring.size() - 1; a >= 0; a--) {
+            switch (givenWstring[a]) {
             case '0':
                 replacementWstring.erase(a);
                 break;
@@ -100,8 +101,47 @@ void OtherFunx::RemoveUnncessaryZeroFromWstring(std::wstring& givenString){
                 replacementWstring.erase(a);
 
             default:
-                givenString = replacementWstring;
+                givenWstring = replacementWstring;
                 return;
+            }
+        }
+    }
+}
+
+
+void OtherFunx::MakeNumberLookGood(std::wstring& givenWstring, int mustBeSize){
+    if (OtherFunx::IsNumeric(givenWstring) && givenWstring.size() <= mustBeSize) {
+        int decimalPosition = -1;       //intializing at impossible decimal position
+
+        //finding where decimal is at
+        for (unsigned int a = 0; a < givenWstring.size(); a++) {
+            if (givenWstring[a] == L'.') {
+                decimalPosition = a;
+                break;
+            }
+        }
+
+        if (decimalPosition == -1) {
+            decimalPosition = mustBeSize - givenWstring.size();
+
+            for (unsigned int a = 0; a < decimalPosition; a++) {
+                givenWstring = L" " + givenWstring;
+            }
+
+            return;
+        }
+
+        //if decimal found, we first deal with make sure there is atleast 100th place
+        if (givenWstring.size() - 1 - decimalPosition < 2) {
+            givenWstring.push_back(' ');
+        }
+
+        //dealing with front
+        if (decimalPosition < (mustBeSize - 1 - 2)) {
+            decimalPosition = mustBeSize - 1 - 2 - decimalPosition;
+
+            for (unsigned int a = 0; a < decimalPosition; a++) {
+                givenWstring = L" " + givenWstring;
             }
         }
     }

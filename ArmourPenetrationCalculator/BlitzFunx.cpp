@@ -20,85 +20,64 @@ Blitz::ShellData::ShellData(std::wstring shellDisplayName, double armourNominal,
 void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& penetrationStorage, double shellNormalizaitonAngle, double armourNominal, double armourAngle){
     double overmatchCalibreTriple = armourNominal * 3;                  //lowest calibre right under triple overmatch for given nominal armour
     double overmatchCalibreDouble = armourNominal * 2;                  //lowest calibre right under double overmatch for given nominal armour
-    std::vector<double> penetrationChance = { 100, 90, 80, 70, 60 };    //penetration chances for plugging into PenetrationValueGenerator and PenetrationValueGeneratorRange functions
+    std::vector<double> penetrationChance = { 100, 80, 60, 40, 20 };    //penetration chances for plugging into PenetrationValueGenerator and PenetrationValueGeneratorRange functions
 
     if (armourAngle < 70) {
         //calibre case 1
         penetrationStorage.push_back(std::vector<std::wstring>{
-            L"0 mm", 
-            L"<", 
-            L"gun calibre", 
-            L"<=", 
+            L"0",
+            L"mm < gun calibre <= ", 
             std::to_wstring(round(overmatchCalibreDouble * 100) / 100),
             L"mm"
         });
 
         Blitz::Funx::PenetrationValueGenerator(penetrationStorage, penetrationChance, Blitz::Funx::ArmourEffectiveness(armourNominal, armourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreDouble, armourNominal)));
 
-        /*
-        penetrationStorage.push_back(std::vector<std::wstring>{
-            L"100% penetration at:", 
-            std::to_wstring(round(Blitz::Funx::ArmourEffectiveness(armourNominal, armourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreDouble, armourNominal)) / (1 - Blitz::Funx::GetRng(100)) * 100) / 100),
-            L"mm"
-        });
-        */
-
         
         //calibre case 2
         penetrationStorage.push_back(std::vector<std::wstring>{
+            L"\n",
             std::to_wstring(round(overmatchCalibreDouble * 100) / 100),
-            L"mm",
-            L"<", 
-            L"gun calibre", 
-            L"<=", 
+            L"mm < gun calibre <= ", 
             std::to_wstring(round(overmatchCalibreTriple * 100) / 100),
             L"mm"
         });
-        
-        penetrationStorage.push_back(std::vector<std::wstring>{
-            L"100% penetration at:", 
-            std::to_wstring(round(Blitz::Funx::ArmourEffectiveness(armourNominal, armourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreDouble, armourNominal)) / 0.95 * 100) / 100),
-            L"mm", 
-            L"to",
-            std::to_wstring(round(Blitz::Funx::ArmourEffectiveness(armourNominal, armourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreTriple, armourNominal)) / 0.95 * 100) / 100),
-            L"mm"
-        });
+
+        Blitz::Funx::PenetrationValueRangeGenerator(penetrationStorage, penetrationChance, std::vector<double>{
+            Blitz::Funx::ArmourEffectiveness(armourNominal, armourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreDouble, armourNominal)),
+            Blitz::Funx::ArmourEffectiveness(armourNominal, armourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreTriple, armourNominal))
+        }
+        );
     }
 
     else {
         penetrationStorage.push_back(std::vector<std::wstring>{
-            L"autoricochet for gun calibre of " + std::to_wstring(round(overmatchCalibreTriple * 100) / 100),
+            L"\n",
+            L"Auto-ricochet for gun calibre of ", 
+            std::to_wstring(round(overmatchCalibreTriple * 100) / 100),
             L"mm or lower!"
         });
     }
 
     //calibre case 3
     penetrationStorage.push_back(std::vector<std::wstring>{
+        L"\n",
         std::to_wstring(round(overmatchCalibreTriple * 100) / 100),
-        L"mm",
-        L"<",
-        L"gun calibre",
-        L"<=",
-        L"\u221e mm"
+        L"mm < gun calibre <    \u221e   mm"
     });
 
-    penetrationStorage.push_back(std::vector<std::wstring>{
-        L"100% penetration at:",
-        std::to_wstring(round(Blitz::Funx::ArmourEffectiveness(armourNominal, armourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreTriple + 0.01, armourNominal)) / 0.95 * 100) / 100),
-        L"mm",
-        L"to",
-        std::to_wstring(round(armourNominal / 0.95 * 100) / 100),
-        L"mm"
-    });
+    Blitz::Funx::PenetrationValueRangeGenerator(penetrationStorage, penetrationChance, std::vector<double>{
+        Blitz::Funx::ArmourEffectiveness(armourNominal, armourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizaitonAngle, overmatchCalibreTriple + 0.01, armourNominal)),
+        armourNominal
+    }
+    );
 }
 
 
 void Blitz::Funx::AgainstChemicalRounds(std::vector<std::vector<std::wstring>>& penetrationStorage, double armourNominal, double armourAngle){
-    penetrationStorage.push_back(std::vector<std::wstring>{
-        L"100% penetration at:",
-        std::to_wstring(round(Blitz::Funx::ArmourEffectiveness(armourNominal, armourAngle, 0) / 0.95 * 100) / 100),
-        L"mm"
-    });
+    std::vector<double> penetrationChance = { 100, 80, 60, 40, 20 };    //penetration chances for plugging into PenetrationValueGenerator
+
+    Blitz::Funx::PenetrationValueGenerator(penetrationStorage, penetrationChance, Blitz::Funx::ArmourEffectiveness(armourNominal, armourAngle, 0));
 }
 
 
@@ -111,11 +90,11 @@ void Blitz::Funx::PenetrationRangeGenerator(std::vector<double>& penetrationRang
 
 
 void Blitz::Funx::PenetrationValueGenerator(std::vector<std::vector<std::wstring>>& penetrationStorage, std::vector<double>& penetrationChances, double effectiveArmour){
-    //repeating over every given chance and adding result to given string vector vector
+    //repeating over rest of the given chance and adding result to given string vector vector
     for (unsigned int a = 0; a < penetrationChances.size(); a++) {
         penetrationStorage.push_back(std::vector<std::wstring>{
             std::to_wstring(round(penetrationChances[a] * 100) / 100),
-            L"chance of penetration at:",
+            L"% chance of penetration for average penetration of ",
             std::to_wstring(round(effectiveArmour / Blitz::Funx::GetRng(penetrationChances[a]) * 100) / 100),
             L"mm"
         });
@@ -123,15 +102,16 @@ void Blitz::Funx::PenetrationValueGenerator(std::vector<std::vector<std::wstring
 }
 
 
-void Blitz::Funx::PenetrationValueRangeGenerator(std::vector<std::vector<std::wstring>>& penetrationStorage, std::vector<double>& penetrationChances, double effectiveArmour1, double effectiveArmour2){
-    //repeating over every given chance and adding result to given string vector vector
+void Blitz::Funx::PenetrationValueRangeGenerator(std::vector<std::vector<std::wstring>>& penetrationStorage, std::vector<double>& penetrationChances, std::vector<double> effectiveArmour){
+    //repeating over rest of the given chance and adding result to given string vector vector
     for (unsigned int a = 0; a < penetrationChances.size(); a++) {
         penetrationStorage.push_back(std::vector<std::wstring>{
             std::to_wstring(round(penetrationChances[a] * 100) / 100),
-            L"chance of penetration from ",
-            std::to_wstring(round(effectiveArmour1 / Blitz::Funx::GetRng(penetrationChances[a]) * 100) / 100),
-            L"mm to",
-            std::to_wstring(round(effectiveArmour2 / Blitz::Funx::GetRng(penetrationChances[a]) * 100) / 100)
+            L"% chance of penetration for average penetration of ",
+            std::to_wstring(round(effectiveArmour[0] / Blitz::Funx::GetRng(penetrationChances[a]) * 100) / 100),
+            L"mm and ",
+            std::to_wstring(round(effectiveArmour[1] / Blitz::Funx::GetRng(penetrationChances[a]) * 100) / 100),
+            L"mm, for respective calibre"
         });
     }
 }
@@ -183,5 +163,29 @@ void Blitz::Funx::DisplayData(std::vector<Blitz::ShellData>& shellData) {
     }
 
 
-    //had idea to put all this into 1 string and later output
+    for (unsigned int a = 0; a < shellData.size(); a++) {
+        std::wcout << L"     Shell Type: " << shellData[a].shellDisplayName << "\n";
+        std::wcout << L"enhanced armour: off\n";
+
+        //outputting all strings from
+        for (unsigned int b = 0; b < shellData[a].enhancedArmourOff.size(); b++) {
+            for (unsigned int c = 0; c < shellData[a].enhancedArmourOff[b].size(); c++) {
+                std::wcout << shellData[a].enhancedArmourOff[b][c];
+            }
+
+            std::wcout << "\n";
+        }
+        std::wcout << "\n\n";
+
+        std::wcout << L"enhanced armour: on\n";
+
+        for (unsigned int b = 0; b < shellData[a].enhancedArmourOn.size(); b++) {
+            for (unsigned int c = 0; c < shellData[a].enhancedArmourOn[b].size(); c++) {
+                std::wcout << shellData[a].enhancedArmourOn[b][c];
+            }
+
+            std::wcout << "\n";
+        }
+        std::wcout << "--------------------------------------------------------------------------\n\n";
+    }
 }

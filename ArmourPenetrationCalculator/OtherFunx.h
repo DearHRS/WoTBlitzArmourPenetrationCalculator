@@ -41,6 +41,8 @@ public:
 
 	/*
 	array dealing wrapper function for RemoveUnnecessaryZerosFromWstring()
+
+	keeps accuracy of atleast 100ths place, if precision is less then space(s) are substituted
 	*/
 	static void RemoveUnnecessaryZerosFromWstringVector(std::vector<std::wstring>& givenVector);
 
@@ -48,5 +50,13 @@ public:
 	removes unncessary 0 after decimal point or decimal places
 	*/
 	static void RemoveUnncessaryZeroFromWstring(std::wstring& givenString);
+
+	/*
+	tries to substitute space(s) to make any number look of particular given size 
+	example: number >XX.Y< for given size 7 will be converted to >  XX.Y <
+
+	custom function for OtherFunx::RemoveUnnecessaryZerosFromWstring()
+	*/
+	static void MakeNumberLookGood(std::wstring& givenString, int mustBeSize);
 };
 
