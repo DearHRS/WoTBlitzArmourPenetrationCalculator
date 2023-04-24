@@ -18,6 +18,19 @@ double OtherFunx::GetDouble(std::wstring inputMessage){
     }
 }
 
+double OtherFunx::GetPositiveDouble(std::wstring inputMessage){
+    while (true) {
+        double result = OtherFunx::GetDouble(inputMessage);
+
+        if (result <= 0) {
+            std::wcout << "\terror: >" << result << "< should be positive!\n\n";
+        }
+        else {
+            return result;
+        }
+    }    
+}
+
 
 bool OtherFunx::IsNumeric(std::wstring givenWstring){
     unsigned int commaPointCounter = 0;
@@ -28,6 +41,12 @@ bool OtherFunx::IsNumeric(std::wstring givenWstring){
 
     for (unsigned int i = 0; i < givenWstring.size(); i++) {
         switch (givenWstring[i]) {
+        case '-':
+            if (i == 0) {
+                continue;
+            }
+            return false;
+
         case '0':
         case '1':
         case '2':
@@ -121,11 +140,18 @@ void OtherFunx::MakeNumberLookGood(std::wstring& givenWstring, int mustBeSize){
             }
         }
 
+        //if no decimal in given number
         if (decimalPosition == -1) {
             decimalPosition = mustBeSize - givenWstring.size();
 
             for (unsigned int a = 0; a < decimalPosition; a++) {
-                givenWstring = L" " + givenWstring;
+                if (a % 2 == 0) {
+                    givenWstring = givenWstring + L" ";
+                }
+                else {
+                    givenWstring = L" " + givenWstring;
+                }
+                
             }
 
             return;

@@ -17,7 +17,7 @@ namespace Blitz{
 
 
 		//Constructor for kinetic rounds
-		ShellData(std::wstring shellDisplayName, double normalizationAngle, double armourNominal, double armourAngle);
+		ShellData(std::wstring shellDisplayName, double normalizationAngle, double armourNominal, double armourAngle, double externalModuleThickness, double spaceArmourNominal, double spacedArmourAngle);
 
 		//Constructor for chemical rounds
 		ShellData(std::wstring shellDisplayName, double armourNominal, double armourAngle);
@@ -32,19 +32,19 @@ namespace Blitz{
 
 	public:
 		/*
-		Stores minimum penetration required to overcome 
-		armour for AP / APCR rounds for 3 shell caliber cases
-		at 100%, 90%, 80%, 70% and 60%
-		calibre case 1: less than equals to 2 times the nominal
-		calibre case 2: more than 2 times the nominal to 3 times the nominal
-		calibre case 3: more than 3 times the nominal
+		Stores minimum penetration required to overcome given primary armour, spaced
+		and external module with AP / APCR rounds for 5 shell penetration cases
+		at 100%, 80%, 60%, 40% and 20%
+		penetration case 1: shell angle  < 70° effective primary armour + external module thickness + effective spaced armour
+		penetration case 2: shell angle >= 70° && external module triple calibre bypass && || spaced armour triple calibre bypass
+		penetration case 3: shell angle >= 70° && primary armour triple calibre overmatch
 		*/
-		static void AgainstKineticRounds(std::vector<std::vector<std::wstring>>& penetrationStorage, double normalizationAngle, double armourNominal, double armourAngle);
+		static void AgainstKineticRounds(std::vector<std::vector<std::wstring>>& penetrationStorage, double normalizationAngle, double armourNominal, double armourAngle, double externalModuleThickness, double spaceArmourNominal, double spacedArmourAngle);
 
 		/*
 		Stores minimum caliber and penetration required to
 		overcome armour for HEAT and HE/HESH rounds
-		at 100%, 90%, 80%, 70% and 60%
+		at 100%, 80%, 60%, 40% and 20%
 		*/
 		static void AgainstChemicalRounds(std::vector<std::vector<std::wstring>>& penetrationStorage, double armourNominal, double armourAngle);
 

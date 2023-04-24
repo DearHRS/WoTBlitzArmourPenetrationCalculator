@@ -18,6 +18,11 @@ public:
 	static double GetDouble(std::wstring inputMessage);
 
 	/*
+	positive value returning wrapper for OtherFunx::GetDouble()
+	*/
+	static double GetPositiveDouble(std::wstring inputMessage);
+
+	/*
 	checks if given string is numeric
 	*/
 	static bool IsNumeric(std::wstring givenWstring);
