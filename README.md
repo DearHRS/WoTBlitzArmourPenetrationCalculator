@@ -4,10 +4,11 @@ Current features:
 -Fully realized penetration for primary armour against AP rounds
 -Fully realized penetration for primary armour against APCR rounds
 -Partially realized penetration for primary armour against HEAT / HE / HESH / HEP  rounds (can not be fully realized without tank models)
-
-Missing features:
 -mafs with spaced armour
 -mafs with external modules (for 3 calibre bypass)
+
+Missing features:
+-understandable gui
 
 
 log:15.04.2023 0115
@@ -40,3 +41,8 @@ log:24.04.2023 0119
 -reworked Blitz::Funx::GetRng() to return result between 0.95 to 1.05 (+-5% shell penetration rng)
 -completed Blitz::Funx::DisplayData()
 -added OtherFunx::MakeNumberLookGood() (called inside of Other::Funx::RemoveUnnecessaryZerosFromWstringVector()), used to fix string length to make data look more even
+
+log:25.04.2023 0023
+-reworked Blitz::Funx::AgainstKineticRounds() (now supports all maths related to spaced armour and external modules)
+-calculator now asks user if they want to launch armourInspector or BlitzHangar before it starts or not
+-fixed few bugs that could crash calculator when entered incorrect input
