@@ -105,6 +105,8 @@ log: 26.04.2023 1413
 
 -fixed bug where 3calibre overmatch bypass being higher than triple overmatch caused incorrect data display
 
+-fixed bug where enchanced armour increased track thickness
+
 -added new function OtherFunx::GetWstringVectorLength(); gets size total size from a string vector
 
 -finally finished tabular view between enhanced armour off and on
