@@ -12,6 +12,7 @@ Current features:
 
 -mafs with external modules (for 3 calibre bypass)
 
+-tabular view between enhanced armour off and on
 
 
 Missing features:
