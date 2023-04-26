@@ -13,7 +13,7 @@ double OtherFunx::GetDouble(std::wstring inputMessage){
             return std::stod(userInput);
         }
         else {
-            std::wcout << L"\terror: >" << userInput << L"< isn't numeric\n\n";
+            std::wcout << L"\t|error: >" << userInput << L"< isn't numeric|\n\n";
         }
     }
 }
@@ -23,7 +23,7 @@ double OtherFunx::GetPositiveDouble(std::wstring inputMessage){
         double result = OtherFunx::GetDouble(inputMessage);
 
         if (result <= 0) {
-            std::wcout << "\terror: >" << result << "< should be positive!\n\n";
+            std::wcout << "\t|error: >" << result << "< should be positive!|\n\n";
         }
         else {
             return result;

@@ -40,43 +40,45 @@ int main(){
 
 
     while (true){
+        std::wcout << L"Enter value of below parameters (in mm) |\n";
+        std::wcout << L"________________________________________|\n\n";
 
-        double armourNominal = OtherFunx::GetPositiveDouble(L"                                     enter value of nominal armour: ");               //variable for base armour thickness (set by user)
-        double armourEffective;                                                                                                                     //variable for relative thickness of base armour at some angle (set by user)
+        double armourNominal = OtherFunx::GetPositiveDouble(L"                                   nominal armour thickness: ");                          //variable for base armour thickness (set by user)
+        double armourEffective;                                                                                                                         //variable for relative thickness of base armour at some angle (set by user)
         
         //repeating until correct effective armour value is passed
         while (true) {
-            armourEffective = OtherFunx::GetPositiveDouble(L"                                   enter value of effective armour: ");
+            armourEffective = OtherFunx::GetPositiveDouble(L"                                 effective armour thickness: ");
 
             if (armourNominal <= armourEffective) {
                 break;
             }
             else{
-                std::wcout << "\n\t error: given effective armour >" << armourEffective << "< can not be lower that nominal armour!\n\n";
+                std::wcout << "\n\t |error: given effective armour >" << armourEffective << "< can not be lower that nominal armour!|\n\n";
             }
         }
        
-        double armourAngle = OtherFunx::RadianToDegree(acos(armourNominal / armourEffective));                                                                      //variable for shell's impacting angle relative to normal armour                      
-        std::wcout << L"                                                      impact angle: " << round(armourAngle * 100) / 100 << L"\u00B0\n";                     //outputting possbile angle for given inputs with ° symbol
+        double armourAngle = OtherFunx::RadianToDegree(acos(armourNominal / armourEffective));                                                          //variable for shell's impacting angle relative to normal armour                      
+        std::wcout << L"                                         shell impact angle: " << round(armourAngle * 100) / 100 << L"°\n";                     //outputting possbile angle for given inputs with ° symbol
 
 
-        double trackThickness = OtherFunx::GetDouble(L"        enter value of track thickness (enter '0' if not impacted): ");                                      //variable for track thickness
+        double trackThickness = OtherFunx::GetDouble(L"      external module thickness (enter '0' if not impacted): ");                                 //variable for track thickness
         
-        double armourSpacedNominal = OtherFunx::GetDouble(L"  enter value of nominal spaced armour (enter '0' if not impacted): ");                                 //varible for nominal spaced armour
-        double armourSpacedEffective = 0;                                                                                                                           //variable for effective spaced armour
-        double armourSpacedAngle = 0;                                                                                                                               //variable for shell's impacting angle relative to normal of spaced armour
+        double armourSpacedNominal = OtherFunx::GetDouble(L"nominal spaced armour thickness (enter '0' if not impacted): ");                            //varible for nominal spaced armour
+        double armourSpacedEffective = 0;                                                                                                               //variable for effective spaced armour
+        double armourSpacedAngle = 0;                                                                                                                   //variable for shell's impacting angle relative to normal of spaced armour
 
         if (armourSpacedNominal > 0) {
             while (true) {
-                armourSpacedEffective = OtherFunx::GetPositiveDouble(L"                            enter value of effective spaced armour: ");
+                armourSpacedEffective = OtherFunx::GetPositiveDouble(L"                          effective spaced armour thickness: ");
 
                 if (armourSpacedNominal <= armourSpacedEffective) {
                     double armourSpacedAngle = OtherFunx::RadianToDegree(acos(armourSpacedNominal / armourSpacedEffective));
-                    std::wcout << L"                                                      impact angle: " << round(armourSpacedAngle * 100) / 100 << L"\u00B0\n";   //outputting possbile angle for given inputs with ° symbol
+                    std::wcout << L"                                         shell impact angle: " << round(armourSpacedAngle * 100) / 100 << L"°\n";   //outputting possbile angle for given inputs with ° symbol
                     break;
                 }
                 else {
-                    std::wcout << "\n\t error: given effective armour >" << armourSpacedEffective << "< can not be lower that nominal spaced armour!\n\n";
+                    std::wcout << "\n\t |error: given effective armour >" << armourSpacedEffective << "< can not be lower that nominal spaced armour!|\n\n";
                 }
             }            
         }        
