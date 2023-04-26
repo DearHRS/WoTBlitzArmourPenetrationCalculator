@@ -5,7 +5,7 @@ Blitz::ShellData::ShellData(std::wstring shellDisplayName, double normalizationA
     this->shellDisplayName = shellDisplayName;
 
     Funx::AgainstKineticRounds(enhancedArmourOff, normalizationAngle, armourNominal, armourAngle, externalModuleThickness, spaceArmourNominal, spacedArmourAngle);
-    Funx::AgainstKineticRounds(enhancedArmourOn, normalizationAngle, armourNominal * 1.04, armourAngle, externalModuleThickness * 1.04, spaceArmourNominal * 1.04, spacedArmourAngle);
+    Funx::AgainstKineticRounds(enhancedArmourOn, normalizationAngle, armourNominal * 1.04, armourAngle, externalModuleThickness, spaceArmourNominal * 1.04, spacedArmourAngle);
 }
 
 
@@ -26,8 +26,10 @@ void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& p
     //penetration case 1
     if (primaryArmourAngle < 70) {
         //calibre case with no double overmatch
+        //done separately to not include newline char
+        penetrationStorage.push_back(std::vector<std::wstring>{L""});
         penetrationStorage.push_back(std::vector<std::wstring>{
-            L"\nFor gun calibre: (",
+            L"For gun calibre: (",
             L"0",
             L",",
             std::to_wstring(round(primaryArmourOvermatchCalibreDouble * 100) / 100),
@@ -37,6 +39,7 @@ void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& p
             }
         );
 
+
         Blitz::Funx::PenetrationValueGenerator(penetrationStorage, penetrationChance,
             externalModuleThickness +
             Blitz::Funx::ArmourEffectiveness(primaryArmourNominal, primaryArmourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreDouble, primaryArmourNominal)) +
@@ -45,18 +48,22 @@ void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& p
 
 
         //calibre case with double overmatch
+        //done separately to not include newline char
+        penetrationStorage.push_back(std::vector<std::wstring>{L""});
         penetrationStorage.push_back(std::vector<std::wstring>{
-            L"\nFor gun calibre: (",
+            L"For gun calibre: (",
             std::to_wstring(round(primaryArmourOvermatchCalibreDouble * 100) / 100),
             L", ",
             std::to_wstring(round(primaryArmourOvermatchCalibreTriple * 100) / 100),
             L"] mm applied normalizaion [",
             std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreDouble + 0.01, primaryArmourNominal) * 100) / 100),
-            L",",
+            L", ",
             std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreTriple, primaryArmourNominal) * 100) / 100),
-            L"] °\n These gun calibres trigger double overmatch!"
+            L"] °"
             }
         );
+        penetrationStorage.push_back(std::vector<std::wstring>{L"These gun calibres trigger double overmatch!"});
+
 
         Blitz::Funx::PenetrationValueRangeGenerator(penetrationStorage, penetrationChance, std::vector<double>{
             externalModuleThickness +
@@ -77,87 +84,118 @@ void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& p
 
         if (externalModuleThickness == 0) {
             tripleOverMatchBypass = spacedArmourNominal * 3;
-            triggerStatement = L"\nTriple overmatch bypass triggered on spaced armour!\n";
+            triggerStatement = L"Triple overmatch bypass triggered on spaced armour!";
         }
         else if (spacedArmourNominal == 0) {
             tripleOverMatchBypass = externalModuleThickness * 3;
-            triggerStatement = L"\nTriple overmatch bypass triggered on external modules!\n";
+            triggerStatement = L"Triple overmatch bypass triggered on external modules!";
         }
         else if (spacedArmourNominal < externalModuleThickness) {
             tripleOverMatchBypass = spacedArmourNominal * 3;
-            triggerStatement = L"\nTriple overmatch bypass triggered on spaced armour!\n";
+            triggerStatement = L"Triple overmatch bypass triggered on spaced armour!";
         }
         else {
             tripleOverMatchBypass = externalModuleThickness * 3;
-            triggerStatement = L"\nTriple overmatch bypass triggered on external modules!\n";
+            triggerStatement = L"Triple overmatch bypass triggered on external modules!";
         }
 
-        //calibre case with no double overmatch
-        penetrationStorage.push_back(std::vector<std::wstring>{
-            triggerStatement,
-            L"\nFor gun calibre: (",
-            std::to_wstring(round(tripleOverMatchBypass * 100) / 100),
-            L", ",
-            std::to_wstring(round(primaryArmourOvermatchCalibreDouble * 100) / 100),
-            L"] mm applied normalizaion ",
-            std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, tripleOverMatchBypass + 0.01, primaryArmourNominal) * 100) / 100),
-            L"°"
+        /*
+        checking if tripleOvermatchBypass is greater than primaryArmourOvermatchCalibreTriple
+        super niche case where TripleOverMatch can be lower than required calibre to triple overmatch bypass
+        */
+        if (primaryArmourOvermatchCalibreTriple > tripleOverMatchBypass) {
+            //calibre case with no double overmatch
+        
+            /*
+            checking if tripleOvermatchBypass is greater than primaryArmourOvermatchCalibreDouble
+            niche case where doubleOverMatch can be lower than required calibre to triple overmatch bypass
+            */
+            if (primaryArmourOvermatchCalibreDouble < tripleOverMatchBypass) {
+                primaryArmourOvermatchCalibreDouble = tripleOverMatchBypass;
             }
-        );
+            else {
+                //done separately to not include newline char
+                penetrationStorage.push_back(std::vector<std::wstring>{L""});
+                penetrationStorage.push_back(std::vector<std::wstring>{triggerStatement});
+                penetrationStorage.push_back(std::vector<std::wstring>{L""});
+                penetrationStorage.push_back(std::vector<std::wstring>{
+                    L"For gun calibre: (",
+                    std::to_wstring(round(tripleOverMatchBypass * 100) / 100),
+                    L", ",
+                    std::to_wstring(round(primaryArmourOvermatchCalibreDouble * 100) / 100),
+                    L"] mm applied normalizaion ",
+                    std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, tripleOverMatchBypass + 0.01, primaryArmourNominal) * 100) / 100),
+                    L"°"
+                    }
+                );
 
-        Blitz::Funx::PenetrationValueGenerator(penetrationStorage, penetrationChance,
-            externalModuleThickness +
-            Blitz::Funx::ArmourEffectiveness(spacedArmourNominal, spacedArmourAngle, 0) +
-            Blitz::Funx::ArmourEffectiveness(primaryArmourNominal, primaryArmourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, tripleOverMatchBypass + 0.01, primaryArmourNominal))
-        );
 
-
-        //calibre case with double overmatch
-        penetrationStorage.push_back(std::vector<std::wstring>{
-            L"\nFor gun calibre: (",
-            std::to_wstring(round(primaryArmourOvermatchCalibreDouble * 100) / 100),
-            L", ",
-            std::to_wstring(round(primaryArmourOvermatchCalibreTriple * 100) / 100),
-            L"] mm applied normalizaion [",
-            std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreDouble + 0.01, primaryArmourNominal) * 100) / 100),
-            L",",
-            std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreTriple, primaryArmourNominal) * 100) / 100),
-            L"] °\n These gun calibres trigger double overmatch!"
+                Blitz::Funx::PenetrationValueGenerator(penetrationStorage, penetrationChance,
+                    externalModuleThickness +
+                    Blitz::Funx::ArmourEffectiveness(spacedArmourNominal, spacedArmourAngle, 0) +
+                    Blitz::Funx::ArmourEffectiveness(primaryArmourNominal, primaryArmourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, tripleOverMatchBypass + 0.01, primaryArmourNominal))
+                );
             }
-        );
+        
 
-        Blitz::Funx::PenetrationValueRangeGenerator(penetrationStorage, penetrationChance, std::vector<double>{
-            externalModuleThickness +
-            Blitz::Funx::ArmourEffectiveness(spacedArmourNominal, spacedArmourAngle, 0) +
-            Blitz::Funx::ArmourEffectiveness(primaryArmourNominal, primaryArmourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreDouble + 0.01, primaryArmourNominal)),
+            //calibre case with double overmatch
+            //done separately to not include newline char
+            penetrationStorage.push_back(std::vector<std::wstring>{L""});
+            penetrationStorage.push_back(std::vector<std::wstring>{
+                L"For gun calibre: (",
+                std::to_wstring(round(primaryArmourOvermatchCalibreDouble * 100) / 100),
+                L", ",
+                std::to_wstring(round(primaryArmourOvermatchCalibreTriple * 100) / 100),
+                L"] mm applied normalization [",
+                std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreDouble + 0.01, primaryArmourNominal) * 100) / 100),
+                L", ",
+                std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreTriple, primaryArmourNominal) * 100) / 100),
+                L"] °"
+                }
+            );
+            penetrationStorage.push_back(std::vector<std::wstring>{L"These gun calibres trigger double overmatch!"});
 
-            externalModuleThickness +
-            Blitz::Funx::ArmourEffectiveness(spacedArmourNominal, spacedArmourAngle, 0) +
-            Blitz::Funx::ArmourEffectiveness(primaryArmourNominal, primaryArmourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreTriple, primaryArmourNominal))
-            }
-        );
+
+            Blitz::Funx::PenetrationValueRangeGenerator(penetrationStorage, penetrationChance, std::vector<double>{
+                externalModuleThickness +
+                Blitz::Funx::ArmourEffectiveness(spacedArmourNominal, spacedArmourAngle, 0) +
+                Blitz::Funx::ArmourEffectiveness(primaryArmourNominal, primaryArmourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreDouble + 0.01, primaryArmourNominal)),
+
+                externalModuleThickness +
+                Blitz::Funx::ArmourEffectiveness(spacedArmourNominal, spacedArmourAngle, 0) +
+                Blitz::Funx::ArmourEffectiveness(primaryArmourNominal, primaryArmourAngle, Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreTriple, primaryArmourNominal))
+                }
+            );
+        }
+            
     }
 
     //penetration case 3
     else {
+        //done separately to not include newline char
+        penetrationStorage.push_back(std::vector<std::wstring>{L""});
         penetrationStorage.push_back(std::vector<std::wstring>{
-            L"\n",
             L"Auto-ricochet for gun calibre of ",
             std::to_wstring(round(primaryArmourOvermatchCalibreTriple * 100) / 100),
-            L"mm or lower!\n"
+            L"mm or lower!"
             }
         );
+        penetrationStorage.push_back(std::vector<std::wstring>{L""});
     }
 
     //calibre case with triple overmatch
+    //done separately to not include newline char
+    penetrationStorage.push_back(std::vector<std::wstring>{L""});
     penetrationStorage.push_back(std::vector<std::wstring>{
-        L"\nFor gun calibre: (",
+        L"For gun calibre: (",
         std::to_wstring(round(primaryArmourOvermatchCalibreTriple * 100) / 100),
-        L",    \u221e   ) mm applied normalization [",
+        L",   \u221e   ) mm applied normalization [",
         std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreTriple + 0.01, primaryArmourNominal) * 100) / 100),
-        L", 90]  °\n These gun calibres trigger double and triple overmatch!"
+        L",  90   ] °"
         }
     );
+    penetrationStorage.push_back(std::vector<std::wstring>{L"These gun calibres trigger double and triple overmatch!"});
+
 
     Blitz::Funx::PenetrationValueRangeGenerator(penetrationStorage, penetrationChance, std::vector<double>{
         externalModuleThickness +
@@ -174,8 +212,10 @@ void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& p
 
 void Blitz::Funx::AgainstChemicalRounds(std::vector<std::vector<std::wstring>>& penetrationStorage, double armourNominal, double armourAngle){
     std::vector<double> penetrationChance = { 100, 80, 60, 40, 20 };    //penetration chances for plugging into PenetrationValueGenerator
-
-    penetrationStorage.push_back(std::vector<std::wstring>{L">Note maths related to these shell types does not account for external modules or spaced armour!\n"});
+    
+    //done separately to not include newline char
+    penetrationStorage.push_back(std::vector<std::wstring>{L">Note maths related to these shell types does not"});
+    penetrationStorage.push_back(std::vector<std::wstring>{L"account for external modules or spaced armour!"});
 
     Blitz::Funx::PenetrationValueGenerator(penetrationStorage, penetrationChance, Blitz::Funx::ArmourEffectiveness(armourNominal, armourAngle, 0));
 }
@@ -255,12 +295,18 @@ double Blitz::Funx::GetRng(double percentage){
 
 
 void Blitz::Funx::DisplayData(std::vector<Blitz::ShellData>& shellData) {
-    std::vector<unsigned int> longestSentence;      //used to find longest string of characters per ShellData element
+    unsigned int longestSentenceInEnhancedArmourOff = 0;        //stores size of longest string in enchanced armour off of ShellData element
 
     //removing unnecessary 0 artifacts from given shellData Array after converting double to string via std::to_wstring()
     for (unsigned int a = 0; a < shellData.size(); a++) {
         for (unsigned int b = 0; b < shellData[a].enhancedArmourOff.size(); b++) {
             OtherFunx::RemoveUnnecessaryZerosFromWstringVector(shellData[a].enhancedArmourOff[b]);
+
+            //determining longest size of line in shellData
+            unsigned int currentLinesLength = OtherFunx::GetWstringVectorLength(shellData[a].enhancedArmourOff[b]);
+            if (longestSentenceInEnhancedArmourOff < currentLinesLength) {
+                longestSentenceInEnhancedArmourOff = currentLinesLength;
+            }
         }
 
         for (unsigned int b = 0; b < shellData[a].enhancedArmourOn.size(); b++) {
@@ -268,30 +314,45 @@ void Blitz::Funx::DisplayData(std::vector<Blitz::ShellData>& shellData) {
         }
     }
 
-
+    
+    //outputting all shell type data from shellData
     for (unsigned int a = 0; a < shellData.size(); a++) {
-        std::wcout << L"     Shell Type: " << shellData[a].shellDisplayName << "\n";
-        std::wcout << L"enhanced armour: off\n";
+        std::wcout << L"     Shell Type: " << shellData[a].shellDisplayName << "\n\n";
+        std::wcout << L"enhanced armour: off"; 
 
-        //outputting all strings from
+        for (unsigned int b = 20; b < longestSentenceInEnhancedArmourOff; b++) {
+            std::wcout << " ";
+        }
+        std::wcout << L"| enhanced armour: on\n";
+
+
+        //outputting all strings from shell types
         for (unsigned int b = 0; b < shellData[a].enhancedArmourOff.size(); b++) {
+            unsigned int lastLineStopedAt = OtherFunx::GetWstringVectorLength(shellData[a].enhancedArmourOff[b]);       //stores where last enchanced armour off sentance left off
+
+            //outputting all characters of enhance armour off line
             for (unsigned int c = 0; c < shellData[a].enhancedArmourOff[b].size(); c++) {
                 std::wcout << shellData[a].enhancedArmourOff[b][c];
             }
 
-            std::wcout << "\n";
-        }
-        std::wcout << "\n\n";
+            for (unsigned int c = lastLineStopedAt; c < longestSentenceInEnhancedArmourOff; c++) {
+                std::wcout << L" ";
+            }
 
-        std::wcout << L"enhanced armour: on\n";
+            std::wcout << "| ";
 
-        for (unsigned int b = 0; b < shellData[a].enhancedArmourOn.size(); b++) {
+            //outputting enhance armour on line
             for (unsigned int c = 0; c < shellData[a].enhancedArmourOn[b].size(); c++) {
                 std::wcout << shellData[a].enhancedArmourOn[b][c];
             }
 
             std::wcout << "\n";
         }
-        std::wcout << "------------------------------------------------------------------------------------------------------\n\n";
+
+
+        for (unsigned int b = 0; b <= 2 * longestSentenceInEnhancedArmourOff; b++) {
+            std::wcout << "-";
+        }
+        std::wcout << "\n\n";
     }
 }

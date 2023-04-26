@@ -63,5 +63,10 @@ public:
 	custom function for OtherFunx::RemoveUnnecessaryZerosFromWstring()
 	*/
 	static void MakeNumberLookGood(std::wstring& givenString, int mustBeSize);
+
+	/*
+	counts total character length of std::vector<std::wstring>
+	*/
+	static int GetWstringVectorLength(std::vector<std::wstring>& givenVector);
 };
 

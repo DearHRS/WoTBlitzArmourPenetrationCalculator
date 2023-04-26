@@ -172,3 +172,13 @@ void OtherFunx::MakeNumberLookGood(std::wstring& givenWstring, int mustBeSize){
         }
     }
 }
+
+int OtherFunx::GetWstringVectorLength(std::vector<std::wstring>& givenVector){
+    unsigned int length = 0;
+
+    for (unsigned int a = 0; a < givenVector.size(); a++) {
+        length += givenVector[a].size();
+    }
+
+    return length;
+}
