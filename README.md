@@ -94,4 +94,4 @@ log26.04.2023 0837
 
 -made output data less wordy while also making them understandable what causes this penetration
 
--currently working on displaying data more tabular
+-currently working on displaying data more tabularly, same shell type's enhanced armour off and on should be displayed side by side 
