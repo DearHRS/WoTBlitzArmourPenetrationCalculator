@@ -88,10 +88,22 @@ log:25.04.2023 0023
 
 
 
-log26.04.2023 0837
+log:26.04.2023 0837
 
 -made input messages slightly less wordy
 
 -made output data less wordy while also making them understandable what causes this penetration
 
 -currently working on displaying data more tabularly, same shell type's enhanced armour off and on should be displayed side by side 
+
+
+
+log: 26.04.2023 1413
+
+-fixed bug where 3calibre overmatch bypass being higher than double overmatch caused incorrect data display
+
+-fixed bug where 3calibre overmatch bypass being higher than triple overmatch caused incorrect data display
+
+-added new function OtherFunx::GetWstringVectorLength(); gets size total size from a string vector
+
+-finally finished tabular view between enhanced armour off and on
