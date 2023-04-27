@@ -99,7 +99,7 @@ log:26.04.2023 0837
 
 
 
-log: 26.04.2023 1413
+log:26.04.2023 1413
 
 -fixed bug where 3calibre overmatch bypass being higher than double overmatch caused incorrect data display
 
@@ -110,3 +110,12 @@ log: 26.04.2023 1413
 -added new function OtherFunx::GetWstringVectorLength(); gets size total size from a string vector
 
 -finally finished tabular view between enhanced armour off and on
+
+
+
+log:27.04.2023 2336
+-fixed a bug that caused output to display impossible range factors like (120, 120]
+
+-fixed a bug where tracks armour thickness were being increased by enhanced armour
+
+-fixed a bug that occured due to previous bug fix didn't allow enhanced armour on to fully output because enhanced armour off ended too early
