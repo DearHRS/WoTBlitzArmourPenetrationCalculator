@@ -31,7 +31,7 @@ void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& p
         penetrationStorage.push_back(std::vector<std::wstring>{
             L"For gun calibre: (",
             L"0",
-            L",",
+            L", ",
             std::to_wstring(round(primaryArmourOvermatchCalibreDouble * 100) / 100),
             L"] mm applied normalizaiton ",
             std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreDouble, primaryArmourNominal) * 100) / 100),
@@ -88,7 +88,7 @@ void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& p
         }
         else if (spacedArmourNominal == 0) {
             tripleOverMatchBypass = externalModuleThickness * 3;
-            triggerStatement = L"Triple overmatch bypass triggered on external modules!";
+            triggerStatement = L"Triple overmatch bypass triggered on external module!";
         }
         else if (spacedArmourNominal < externalModuleThickness) {
             tripleOverMatchBypass = spacedArmourNominal * 3;
@@ -96,27 +96,29 @@ void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& p
         }
         else {
             tripleOverMatchBypass = externalModuleThickness * 3;
-            triggerStatement = L"Triple overmatch bypass triggered on external modules!";
+            triggerStatement = L"Triple overmatch bypass triggered on external module!";
         }
 
         /*
         checking if tripleOvermatchBypass is greater than primaryArmourOvermatchCalibreTriple
         super niche case where TripleOverMatch can be lower than required calibre to triple overmatch bypass
         */
-        if (primaryArmourOvermatchCalibreTriple > tripleOverMatchBypass) {
-            //calibre case with no double overmatch
+        if (primaryArmourOvermatchCalibreTriple >= tripleOverMatchBypass) {
+            penetrationStorage.push_back(std::vector<std::wstring>{L""});
+            penetrationStorage.push_back(std::vector<std::wstring>{triggerStatement});
+            penetrationStorage.push_back(std::vector<std::wstring>{L""});
+
         
             /*
             checking if tripleOvermatchBypass is greater than primaryArmourOvermatchCalibreDouble
             niche case where doubleOverMatch can be lower than required calibre to triple overmatch bypass
             */
-            if (primaryArmourOvermatchCalibreDouble < tripleOverMatchBypass) {
+            if (primaryArmourOvermatchCalibreDouble <= tripleOverMatchBypass) {
                 primaryArmourOvermatchCalibreDouble = tripleOverMatchBypass;
             }
             else {
-                //done separately to not include newline char
-                penetrationStorage.push_back(std::vector<std::wstring>{L""});
-                penetrationStorage.push_back(std::vector<std::wstring>{triggerStatement});
+                //calibre case with no double overmatch
+
                 penetrationStorage.push_back(std::vector<std::wstring>{L""});
                 penetrationStorage.push_back(std::vector<std::wstring>{
                     L"For gun calibre: (",
@@ -297,7 +299,15 @@ double Blitz::Funx::GetRng(double percentage){
 void Blitz::Funx::DisplayData(std::vector<Blitz::ShellData>& shellData) {
     unsigned int longestSentenceInEnhancedArmourOff = 0;        //stores size of longest string in enchanced armour off of ShellData element
 
-    //removing unnecessary 0 artifacts from given shellData Array after converting double to string via std::to_wstring()
+    /*
+    removing unnecessary 0 artifacts from given shellData Array after converting double to string via std::to_wstring()
+    
+    also finding longest sentence in enhanced armour off (for tabular view)
+    
+    increasing size of enhanced armour off array so all lines from enhanced armour on can be outputted 
+    niche case where triple overmatch bypass on tracks is equals to double overmatch on primary armour, this case is
+    ignored for enhanced armour off but with enhanced armour on nominal armour value changes and thus not ignored
+    */
     for (unsigned int a = 0; a < shellData.size(); a++) {
         for (unsigned int b = 0; b < shellData[a].enhancedArmourOff.size(); b++) {
             OtherFunx::RemoveUnnecessaryZerosFromWstringVector(shellData[a].enhancedArmourOff[b]);
@@ -312,20 +322,30 @@ void Blitz::Funx::DisplayData(std::vector<Blitz::ShellData>& shellData) {
         for (unsigned int b = 0; b < shellData[a].enhancedArmourOn.size(); b++) {
             OtherFunx::RemoveUnnecessaryZerosFromWstringVector(shellData[a].enhancedArmourOn[b]);
         }
+
+
+        for (unsigned int b = shellData[a].enhancedArmourOff.size(); b < shellData[a].enhancedArmourOn.size(); b++) {
+            shellData[a].enhancedArmourOff.push_back(std::vector<std::wstring>{L""});
+        }
     }
 
     
     //outputting all shell type data from shellData
     for (unsigned int a = 0; a < shellData.size(); a++) {
         std::wcout << L"     Shell Type: " << shellData[a].shellDisplayName << "\n\n";
-        std::wcout << L"enhanced armour: off"; 
+
+        for (unsigned int b = 0; b <= 2 * longestSentenceInEnhancedArmourOff; b++) {
+            std::wcout << "-";
+        }
+
+        std::wcout << L"\nenhanced armour: off"; 
 
         for (unsigned int b = 20; b < longestSentenceInEnhancedArmourOff; b++) {
             std::wcout << " ";
         }
         std::wcout << L"| enhanced armour: on\n";
 
-
+        //hori bug, tracks and side that perfectly match double and triple overmatch do not let enhacned armour data fully upload
         //outputting all strings from shell types
         for (unsigned int b = 0; b < shellData[a].enhancedArmourOff.size(); b++) {
             unsigned int lastLineStopedAt = OtherFunx::GetWstringVectorLength(shellData[a].enhancedArmourOff[b]);       //stores where last enchanced armour off sentance left off
@@ -348,7 +368,7 @@ void Blitz::Funx::DisplayData(std::vector<Blitz::ShellData>& shellData) {
 
             std::wcout << "\n";
         }
-
+        
 
         for (unsigned int b = 0; b <= 2 * longestSentenceInEnhancedArmourOff; b++) {
             std::wcout << "-";
