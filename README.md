@@ -32,6 +32,7 @@ log:15.04.2023 0115
 
 
 log:15.04.2023 1516
+
 -completed functions related to calculation of kinetic rounds (ap/apcr)
 
 -intregated those functions and programme finally does calculations related to 100% chance of penetration
