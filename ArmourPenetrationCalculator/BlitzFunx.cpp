@@ -295,7 +295,7 @@ double Blitz::Funx::GetRng(double percentage){
     return 1 + ((percentage - 50.05) / (-9.99) / 100);
 }
 
-
+//foch 155 bug, table is sliding left /*quite possibly a console resizing bug not related to this code*/
 void Blitz::Funx::DisplayData(std::vector<Blitz::ShellData>& shellData) {
     unsigned int longestSentenceInEnhancedArmourOff = 0;        //stores size of longest string in enchanced armour off of ShellData element
 
@@ -345,7 +345,6 @@ void Blitz::Funx::DisplayData(std::vector<Blitz::ShellData>& shellData) {
         }
         std::wcout << L"| enhanced armour: on\n";
 
-        //hori bug, tracks and side that perfectly match double and triple overmatch do not let enhacned armour data fully upload
         //outputting all strings from shell types
         for (unsigned int b = 0; b < shellData[a].enhancedArmourOff.size(); b++) {
             unsigned int lastLineStopedAt = OtherFunx::GetWstringVectorLength(shellData[a].enhancedArmourOff[b]);       //stores where last enchanced armour off sentance left off
