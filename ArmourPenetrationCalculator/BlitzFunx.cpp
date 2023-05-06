@@ -33,7 +33,7 @@ void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& p
             L"0",
             L", ",
             std::to_wstring(round(primaryArmourOvermatchCalibreDouble * 100) / 100),
-            L"] mm applied normalizaiton ",
+            L"] mm applied normalization ",
             std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreDouble, primaryArmourNominal) * 100) / 100),
             L"°"
             }
@@ -55,7 +55,7 @@ void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& p
             std::to_wstring(round(primaryArmourOvermatchCalibreDouble * 100) / 100),
             L", ",
             std::to_wstring(round(primaryArmourOvermatchCalibreTriple * 100) / 100),
-            L"] mm applied normalizaion [",
+            L"] mm applied normalization [",
             std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreDouble + 0.01, primaryArmourNominal) * 100) / 100),
             L", ",
             std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, primaryArmourOvermatchCalibreTriple, primaryArmourNominal) * 100) / 100),
@@ -125,7 +125,7 @@ void Blitz::Funx::AgainstKineticRounds(std::vector<std::vector<std::wstring>>& p
                     std::to_wstring(round(tripleOverMatchBypass * 100) / 100),
                     L", ",
                     std::to_wstring(round(primaryArmourOvermatchCalibreDouble * 100) / 100),
-                    L"] mm applied normalizaion ",
+                    L"] mm applied normalization ",
                     std::to_wstring(round(Blitz::Funx::NormalizationIncreased(shellNormalizationAngle, tripleOverMatchBypass + 0.01, primaryArmourNominal) * 100) / 100),
                     L"°"
                     }
